@@ -1,5 +1,7 @@
 package com.postech.logistica.dto;
 
+import com.postech.logistica.enums.StatusEntrega;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,5 @@ import lombok.ToString;
 @ToString
 public class StatusEntregaEvento {
     private Long entregaId;
-    private String status;
+    private StatusEntrega status;
 }

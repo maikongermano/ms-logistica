@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.messaging.StatusEntregaProducer;
 import com.postech.logistica.repository.EntregaRepository;
 
@@ -28,7 +29,7 @@ public class EntregaService {
                 .endereco(endereco)
                 .latitude(latitude)
                 .longitude(longitude)
-                .status("PENDENTE")
+                .status(StatusEntrega.EM_SEPARACAO)
                 .dataCriacao(LocalDateTime.now())
                 .build();
         return entregaRepository.save(entrega);
@@ -60,7 +61,7 @@ public class EntregaService {
         return RAIO_TERRA_KM * c;
     }
     
-    public Entrega atualizarStatus(Long entregaId, String novoStatus) {
+    public Entrega atualizarStatus(Long entregaId, StatusEntrega novoStatus) {
         Optional<Entrega> entregaOpt = entregaRepository.findById(entregaId);
         if (entregaOpt.isEmpty()) {
             throw new RuntimeException("Entrega não encontrada!");
@@ -79,7 +80,7 @@ public class EntregaService {
         Optional<Entrega> entregaOpt = entregaRepository.findById(pedidoId);
         if (entregaOpt.isPresent()) {
             Entrega entrega = entregaOpt.get();
-            entrega.setStatus("CANCELADA");
+            entrega.setStatus(StatusEntrega.CANCELADO);
             entregaRepository.save(entrega);
             System.out.println("Entrega cancelada para o pedido: " + pedidoId);
         } else {

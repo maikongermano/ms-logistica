@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.postech.logistica.dto.AtualizaStatusEntregaDTO;
 import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.messaging.EntregaConcluidaProducer;
 import com.postech.logistica.service.EntregaService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class EntregaController {
 
     private final EntregaService entregaService;
+    
+    private final EntregaConcluidaProducer entregaConcluidaProducer;
 
     @GetMapping
     public List<Entrega> listarEntregas() {
@@ -46,6 +50,12 @@ public class EntregaController {
     public ResponseEntity<Entrega> atualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusEntregaDTO dto) {
         Entrega entregaAtualizada = entregaService.atualizarStatus(id, dto.getStatus());
         return ResponseEntity.ok(entregaAtualizada);
+    }
+    
+    @PostMapping("/{id}/concluir")
+    public ResponseEntity<Void> concluirEntrega(@PathVariable Long id) {
+        entregaConcluidaProducer.enviarEventoEntregaConcluida(id);
+        return ResponseEntity.ok().build();
     }
 }
 

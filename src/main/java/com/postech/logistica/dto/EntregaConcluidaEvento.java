@@ -13,7 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class EntregaIniciadaEvento {
+public class EntregaConcluidaEvento {
     private Long pedidoId;
     private StatusEntrega status;
 }
+

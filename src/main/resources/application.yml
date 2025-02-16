@@ -43,6 +43,11 @@ spring:
         entregaIniciadaProducer-out-0:
           destination: entrega-iniciada-topic
           content-type: application/json
+          
+         # Produtor do tópico "entrega-concluida-topic"
+        entregaConcluidaProducer-out-0:
+          destination: entrega-concluida-topic
+          content-type: application/json
 
         # Produtor do tópico "status-entrega-topic" (Atualizações de entrega)
         statusEntregaProducer-out-0:

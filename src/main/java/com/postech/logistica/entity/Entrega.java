@@ -3,7 +3,11 @@ package com.postech.logistica.entity;
 
 import java.time.LocalDateTime;
 
+import com.postech.logistica.enums.StatusEntrega;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,11 +32,15 @@ public class Entrega {
     private Long id;
 
     private Long pedidoId;
+    
     private String endereco;
     
     private Double latitude;
+    
     private Double longitude;
     
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusEntrega status;
+    
     private LocalDateTime dataCriacao;
 }
