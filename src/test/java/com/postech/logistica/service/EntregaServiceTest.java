@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.messaging.StatusEntregaProducer;
 import com.postech.logistica.repository.EntregaRepository;
 
@@ -37,19 +38,19 @@ class EntregaServiceTest {
         entrega = new Entrega();
         entrega.setId(1L);
         entrega.setPedidoId(1001L);
-        entrega.setStatus("PENDENTE");
+        entrega.setStatus(StatusEntrega.EM_ROTA);
     }
 
     @Test
     void deveAtualizarStatusEntrega() {
         when(entregaRepository.findById(1L)).thenReturn(Optional.of(entrega));
 
-        Entrega entregaAtualizada = entregaService.atualizarStatus(1L, "EM TRANSPORTE");
+        Entrega entregaAtualizada = entregaService.atualizarStatus(1L, StatusEntrega.EM_ROTA);
 
-        assertEquals("EM TRANSPORTE", entregaAtualizada.getStatus());
+        assertEquals(StatusEntrega.EM_ROTA, entregaAtualizada.getStatus());
 
         verify(entregaRepository, times(1)).save(entrega);
 
-        verify(statusEntregaProducer, times(1)).enviarEventoStatusEntrega(1L, "EM TRANSPORTE");
+        verify(statusEntregaProducer, times(1)).enviarEventoStatusEntrega(1L, StatusEntrega.EM_ROTA);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.postech.logistica.dto.AtualizaStatusEntregaDTO;
 import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.service.EntregaService;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,19 +29,19 @@ class EntregaControllerTest {
     @Test
     void deveAtualizarStatusEntrega() {
         AtualizaStatusEntregaDTO dto = new AtualizaStatusEntregaDTO();
-        dto.setStatus("EM TRANSPORTE");
+        dto.setStatus(StatusEntrega.EM_ROTA);
 
         Entrega entrega = new Entrega();
         entrega.setId(1L);
-        entrega.setStatus("EM TRANSPORTE");
+        entrega.setStatus(StatusEntrega.EM_ROTA);
 
-        when(entregaService.atualizarStatus(1L, "EM TRANSPORTE")).thenReturn(entrega);
+        when(entregaService.atualizarStatus(1L, StatusEntrega.EM_ROTA)).thenReturn(entrega);
 
         ResponseEntity<Entrega> response = entregaController.atualizarStatus(1L, dto);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals("EM TRANSPORTE", response.getBody().getStatus());
+        assertEquals(StatusEntrega.EM_ROTA, response.getBody().getStatus());
 
-        verify(entregaService, times(1)).atualizarStatus(1L, "EM TRANSPORTE");
+        verify(entregaService, times(1)).atualizarStatus(1L, StatusEntrega.EM_ROTA);
     }
 }
