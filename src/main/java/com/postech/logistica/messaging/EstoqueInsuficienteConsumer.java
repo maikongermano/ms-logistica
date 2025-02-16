@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class EstoqueInsuficienteConsumer implements Consumer<EstoqueInsuficienteEvento> {
 
     private final EntregaService entregaService;
+    private final EntregaIniciadaProducer entregaIniciadaProducer;
 
     @Override
     public void accept(EstoqueInsuficienteEvento evento) {
@@ -24,6 +25,7 @@ public class EstoqueInsuficienteConsumer implements Consumer<EstoqueInsuficiente
             entregaService.cancelarEntrega(evento.getPedidoId());
         } else {
             System.out.println("Estoque suficiente. Continuando entrega para o pedido: " + evento.getPedidoId());
+            entregaIniciadaProducer.enviarEventoEntregaIniciada(evento.getPedidoId());
         }
     }
 }

@@ -38,6 +38,11 @@ spring:
           destination: estoque-insuficiente-topic
           group: logistica-group
           content-type: application/json
+          
+         # Produtor do tópico "entrega-iniciada-topic" (Evento de entrega iniciada)
+        entregaIniciadaProducer-out-0:
+          destination: entrega-iniciada-topic
+          content-type: application/json
 
         # Produtor do tópico "status-entrega-topic" (Atualizações de entrega)
         statusEntregaProducer-out-0:
