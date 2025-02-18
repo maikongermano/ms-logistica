@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.postech.logistica.dto.NovoPedidoDTO;
 import com.postech.logistica.entity.Entrega;
 import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.messaging.StatusEntregaProducer;
@@ -21,12 +22,17 @@ public class EntregaService {
 
     private final EntregaRepository entregaRepository;
     private final StatusEntregaProducer statusEntregaProducer;
+    private final CepService cepService;
     private static final double RAIO_TERRA_KM = 6371.0;
 
-    public Entrega criarEntrega(Long pedidoId, String endereco, Double latitude, Double longitude) {
+    public Entrega criarEntrega(NovoPedidoDTO novoPeditoDTO) {
+    	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.getCep());
+        double latitude = coordenadas[0];
+        double longitude = coordenadas[1];
+        
         Entrega entrega = Entrega.builder()
-                .pedidoId(pedidoId)
-                .endereco(endereco)
+                .pedidoId(novoPeditoDTO.getIdPedido())
+                .endereco(novoPeditoDTO.getCep())
                 .latitude(latitude)
                 .longitude(longitude)
                 .status(StatusEntrega.EM_SEPARACAO)

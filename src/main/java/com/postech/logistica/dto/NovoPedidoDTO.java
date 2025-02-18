@@ -1,5 +1,7 @@
 package com.postech.logistica.dto;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class NovoPedidoEvento {
-    private Long pedidoId;
-    private String endereco;
-    private Double latitude;
-    private Double longitude;
+public class NovoPedidoDTO {
+    private Long idPedido;
+    private String cep;
+    private Map<Long, Integer> itens;
 }
