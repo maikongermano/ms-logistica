@@ -4,11 +4,13 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+
   datasource:
     url: jdbc:postgresql://localhost:55000/logistica
     username: postgres
     password: postgrespw
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,7 +18,7 @@ spring:
     show-sql: true
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: pkc-lq8v7.eu-central-1.aws.confluent.cloud:9092
     consumer:
       group-id: logistica-group
       auto-offset-reset: earliest
@@ -38,13 +40,13 @@ spring:
           destination: estoque-insuficiente-topic
           group: logistica-group
           content-type: application/json
-          
-         # Produtor do tópico "entrega-iniciada-topic" (Evento de entrega iniciada)
+
+        # Produtor do tópico "entrega-iniciada-topic" (Evento de entrega iniciada)
         entregaIniciadaProducer-out-0:
           destination: entrega-iniciada-topic
           content-type: application/json
-          
-         # Produtor do tópico "entrega-concluida-topic"
+
+        # Produtor do tópico "entrega-concluida-topic"
         entregaConcluidaProducer-out-0:
           destination: entrega-concluida-topic
           content-type: application/json
@@ -57,3 +59,7 @@ spring:
       kafka:
         binder:
           brokers: localhost:9092
+
+  google:
+    maps:
+      api-key: ${GOOGLE_MAPS_API_KEY}
